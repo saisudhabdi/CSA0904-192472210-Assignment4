@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Task 01: Fee window using separate service logic and event listeners.
- */
 public class FeeWindow extends JFrame {
     private final FeeService feeService = new FeeService();
     private final JTextField amountField = new JTextField(12);
