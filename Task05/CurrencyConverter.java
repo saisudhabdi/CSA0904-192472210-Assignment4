@@ -11,16 +11,18 @@ public class CurrencyConverter extends JFrame implements ActionListener {
         super("INR to USD Converter");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLayout(new FlowLayout(FlowLayout.LEFT));
-        JButton convert = new JButton("Convert");
+        JButton convert = new JButton("Convert (lambda)");
+        JButton convertViaFrame = new JButton("Convert (frame listener)");
         JButton clear = new JButton("Clear");
         add(new JLabel("Amount in INR:"));
         add(inr);
         add(convert);
+        add(convertViaFrame);
         add(clear);
         add(output);
 
         // Style 1: frame implements ActionListener.
-        convert.addActionListener(this);
+        convertViaFrame.addActionListener(this);
 
         // Style 2: named inner class.
         clear.addActionListener(new ClearHandler());
