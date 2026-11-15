@@ -1,7 +1,3 @@
-/**
- * FeeService contains the fee calculation rules.
- * It is independent of the graphical user interface.
- */
 public class FeeService {
     public double calculateFee(String feeType, double amount) {
         if (amount < 0) {
