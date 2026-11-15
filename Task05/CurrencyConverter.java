@@ -1,0 +1,72 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class CurrencyConverter extends JFrame implements ActionListener {
+    private final JTextField inr = new JTextField(12);
+    private final JLabel output = new JLabel("USD: —");
+    private static final double INR_TO_USD = 0.012; // illustrative fixed rate
+
+    public CurrencyConverter() {
+        super("INR to USD Converter");
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setLayout(new FlowLayout(FlowLayout.LEFT));
+        JButton convert = new JButton("Convert");
+        JButton clear = new JButton("Clear");
+        add(new JLabel("Amount in INR:"));
+        add(inr);
+        add(convert);
+        add(clear);
+        add(output);
+
+        // Style 1: frame implements ActionListener.
+        convert.addActionListener(this);
+
+        // Style 2: named inner class.
+        clear.addActionListener(new ClearHandler());
+
+        // Style 3: anonymous inner class.
+        inr.addActionListener(new ActionListener() {
+            @Override public void actionPerformed(ActionEvent e) { convertAmount(); }
+        });
+
+        // Style 4: lambda listener (also permits button activation by Enter via default button).
+        convert.addActionListener(e -> convertAmount());
+
+        addWindowListener(new WindowAdapter() {
+            @Override public void windowClosing(WindowEvent e) {
+                int answer = JOptionPane.showConfirmDialog(CurrencyConverter.this,
+                        "Close the converter?", "Confirm exit", JOptionPane.YES_NO_OPTION);
+                if (answer == JOptionPane.YES_OPTION) dispose();
+            }
+        });
+        getRootPane().setDefaultButton(convert);
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    @Override public void actionPerformed(ActionEvent e) { convertAmount(); }
+
+    private class ClearHandler implements ActionListener {
+        @Override public void actionPerformed(ActionEvent e) {
+            inr.setText("");
+            output.setText("USD: —");
+            inr.requestFocusInWindow();
+        }
+    }
+
+    private void convertAmount() {
+        try {
+            double amount = Double.parseDouble(inr.getText().trim());
+            if (!Double.isFinite(amount) || amount < 0) throw new NumberFormatException();
+            output.setText(String.format("USD: %.2f", amount * INR_TO_USD));
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Enter a valid non-negative INR amount.",
+                    "Invalid amount", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new CurrencyConverter().setVisible(true));
+    }
+}
