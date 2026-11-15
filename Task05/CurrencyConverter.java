@@ -5,7 +5,7 @@ import java.awt.event.*;
 public class CurrencyConverter extends JFrame implements ActionListener {
     private final JTextField inr = new JTextField(12);
     private final JLabel output = new JLabel("USD: —");
-    private static final double INR_TO_USD = 0.012; // illustrative fixed rate
+    private static final double INR_TO_USD = 0.012;
 
     public CurrencyConverter() {
         super("INR to USD Converter");
@@ -21,18 +21,14 @@ public class CurrencyConverter extends JFrame implements ActionListener {
         add(clear);
         add(output);
 
-        // Style 1: frame implements ActionListener.
         convertViaFrame.addActionListener(this);
 
-        // Style 2: named inner class.
         clear.addActionListener(new ClearHandler());
 
-        // Style 3: anonymous inner class.
         inr.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) { convertAmount(); }
         });
 
-        // Style 4: lambda listener (also permits button activation by Enter via default button).
         convert.addActionListener(e -> convertAmount());
 
         addWindowListener(new WindowAdapter() {
